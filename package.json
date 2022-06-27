@@ -1,0 +1,38 @@
+{
+  "name": "todo-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "serverless offline",
+    "deploy": "serverless deploy",
+    "docker:start": "docker run --name Fake-SQS -d -p 9324:9324  softwaremill/elasticmq"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.81",
+    "@types/node": "^16.11.39",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "eslint": "^8.17.0",
+    "eslint-plugin-react": "^7.30.0",
+    "prettier": "^2.3.2",
+    "serverless": "^2.52.1",
+    "serverless-offline": "^8.8.0",
+    "serverless-offline-sqs": "^6.0.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^2.6.2",
+    "@types/yup": "^0.29.14",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.953.0",
+    "dotenv": "^16.0.1",
+    "node-fetch": "^3.2.6",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
+  }
+}

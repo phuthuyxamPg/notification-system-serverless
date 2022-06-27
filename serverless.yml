@@ -1,0 +1,61 @@
+# Welcome to Serverless!
+app: sinch-service
+#org: phuthuyxam
+service: adobe-service
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - sqs:*
+          Resource: "*"
+  stage: dev
+  region: us-east-1
+
+custom:
+  serverless-offline-sqs:
+    autoCreate: true                 # create queue if not exists
+    apiVersion: '2012-11-05'
+    endpoint: http://0.0.0.0:9324
+    region: eu-west-1
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
+
+functions:
+  compute:
+    handler: src/dispatcher.receiver
+    events:
+      - sqs:
+          # add arn of sqs
+          arn: arn:aws:sqs:us-east-1:706512677771:DemoQueueSendMail.fifo 
+          # which effects how many SQS messages can be included in a single Lambda invocation. The default batchSize is 10. The max batchSize is 10000 for a standard queue, 10 for a FIFO queue.          
+#          batchSize: 1
+          # maximum amount of time in seconds to gather records before invoking the function
+#          maximumBatchingWindow: 60
+          # handler error on lambda process
+#          functionResponseType: ReportBatchItemFailures
+          # apply filter for queue input message.          
+#          filterPatterns:
+#            - a: [ 1, 2 ]
+          
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-offline-sqs
+resources:
+  - ${file(resources/vpc.yml)}

@@ -1,0 +1,43 @@
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      Tags:
+        - Key: 'demo'
+          Value: 'private-subnet'
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ${self:provider.region}a
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: Vpc
+  LambdaSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow all traffic
+      GroupName: ${self:service}-${self:provider.stage}-lambdaSecurityGroup
+      VpcId:
+        Ref: Vpc
+      SecurityGroupIngress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: 'purpose'
+          Value: 'blogging'
+  PrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc
+  SubnetRouteTableAssociationPrivate1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: PrivateSubnet1
+      RouteTableId:
+        Ref: PrivateRouteTable1
