@@ -5,7 +5,7 @@ Resources:
       CidrBlock: 10.0.0.0/16
       Tags:
         - Key: 'demo'
-          Value: 'private-subnet'
+          Value: 'serverless-private-subnet'
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -27,8 +27,8 @@ Resources:
         - IpProtocol: '-1'
           CidrIp: 0.0.0.0/0
       Tags:
-        - Key: 'purpose'
-          Value: 'blogging'
+        - Key: 'demo'
+          Value: 'serverless-private-subnet'
   PrivateRouteTable1:
     Type: AWS::EC2::RouteTable
     Properties:
